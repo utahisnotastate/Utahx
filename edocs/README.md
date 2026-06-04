@@ -61,3 +61,4 @@ Igal lehel on **ainult üks keel**.
 | English | [../docs/README.md](../docs/README.md) |
 | Русский | [../tdocs/README.md](../tdocs/README.md) |
 | 简体中文 | [../cdocs/README.md](../cdocs/README.md) |
+| Suomi | [../fdocs/README.md](../fdocs/README.md) |

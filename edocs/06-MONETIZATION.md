@@ -86,4 +86,5 @@ Plaanitud telemeetria: RPS, viskoossus, cache HIT, TLS, podide arv.
 - [Eesti indeks](README.md)  
 - [English](../docs/README.md)  
 - [Русский](../tdocs/README.md)  
-- [简体中文](../cdocs/README.md)
+- [简体中文](../cdocs/README.md)  
+- [Suomi](../fdocs/README.md)

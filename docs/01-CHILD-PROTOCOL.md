@@ -84,6 +84,12 @@ Behind the scenes, Utahx acts as a **reverse proxy** and **web server**. It list
 
 ---
 
+## Safety reminder
+
+Utahx exposes your computer or server to the network when you bind to public ports. Use a domain and TLS for production, keep your operating system updated, and do not expose admin tools on the same port without authentication.
+
+---
+
 ## Where to go next
 
 - Business impact: [Part 2 — Business Guide](02-BUSINESS-GUIDE.md)  

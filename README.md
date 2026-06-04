@@ -16,6 +16,7 @@ Documentation is split by language in **separate folders** (one language per pag
 | **Russian** | [tdocs/README.md](tdocs/README.md) |
 | **Chinese (Simplified)** | [cdocs/README.md](cdocs/README.md) |
 | **Estonian** | [edocs/README.md](edocs/README.md) |
+| **Finnish** | [fdocs/README.md](fdocs/README.md) |
 
 | Audience (English) | Guide |
 |--------------------|-------|

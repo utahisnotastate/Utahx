@@ -66,7 +66,7 @@ Utahx is a single binary and CLI that replaces manual **Nginx configuration**, *
 
 ## Contributing to docs
 
-Documentation changes belong in the language-specific folder only. Do not mix languages on one page. Add new locales as sibling directories (for example `edocs/` for Estonian).
+Documentation changes belong in the language-specific folder only. Do not mix languages on one page. Add new locales as sibling directories (`tdocs/`, `cdocs/`, `edocs/`, `fdocs/`, and so on).
 
 ---
 
@@ -79,3 +79,4 @@ Each translation is isolated in its own directory. Pages contain **one language 
 | Russian | [../tdocs/README.md](../tdocs/README.md) |
 | Chinese (Simplified) | [../cdocs/README.md](../cdocs/README.md) |
 | Estonian | [../edocs/README.md](../edocs/README.md) |
+| Finnish | [../fdocs/README.md](../fdocs/README.md) |

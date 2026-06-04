@@ -132,6 +132,14 @@ Figures vary by team size; use your incident history for a precise model.
 
 ---
 
+## Procurement talking points
+
+- **Risk reduction:** Fewer cert and spike outages than manual Nginx operations.  
+- **Time to market:** Engineers ship routes in minutes, not sprint-long infra tickets.  
+- **Future path:** Utahx Cloud adds dashboards without replacing the free OSS core.
+
+---
+
 ## Next steps
 
 - Engineering migration: [Part 3 — Migration Guide](03-MIGRATION-GUIDE.md)  

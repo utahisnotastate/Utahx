@@ -102,4 +102,5 @@ utahx start --domain example.com
 - [Оглавление на русском](README.md)  
 - [English docs](../docs/README.md)  
 - [简体中文](../cdocs/README.md)  
-- [Eesti](../edocs/README.md)
+- [Eesti](../edocs/README.md)  
+- [Suomi](../fdocs/README.md)

@@ -113,13 +113,23 @@ Detection order:
 ## Middleware and request flow
 
 ```
-Client
-  → HumanIntrospectionMiddleware   (friendly 404/502/500)
-  → FluidTrafficMiddleware         (viscosity / Reynolds)
-  → SemanticCacheMiddleware        (API RAM cache)
-  → PrefetchInjectMiddleware       (HTML script injection)
-  → Static | reverse proxy | auto backend
+Internet
+    │
+    ▼
+Utahx listener (80 / 443 / 8080)
+    │
+    ├── HumanIntrospectionMiddleware   (friendly 404/502/500)
+    ├── FluidTrafficMiddleware         (viscosity / Reynolds)
+    ├── SemanticCacheMiddleware        (API RAM cache)
+    ├── PrefetchInjectMiddleware       (HTML pre-fetch)
+    ├── AutoTLSEngine                  (ACME / .utahx/vault)
+    └── Route target
+            ├── Static / SPA files
+            ├── Reverse proxy → :PORT
+            └── Auto-started Python / Node backend
 ```
+
+Core modules: `utahx_cli`, `utahx_auto`, `utahx_core`, `utahx_secure`, `utahx_prefetch`, `utahx_cache`.
 
 ---
 
