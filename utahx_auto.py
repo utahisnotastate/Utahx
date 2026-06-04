@@ -25,6 +25,7 @@ from utahx_core import FluidRouter
 from utahx_ports import find_free_port
 from utahx_registry import check_upstream_registry, log_registry_status
 from utahx_cache import SemanticCacheMiddleware
+from utahx_apex import CryogenicStasis, create_challenge_router, register_apex_http
 from utahx_prefetch import detect_spa, register_prefetch
 from utahx_secure import HumanIntrospectionMiddleware, render_friendly_error
 
@@ -188,9 +189,11 @@ class UtahxServer:
         enable_prefetch: bool = True,
         enable_semantic_cache: bool = True,
         cache_ttl_seconds: int = 60,
+        enable_apex: bool = True,
+        stasis_timeout: float = 15.0,
     ) -> None:
         self.directory = os.path.abspath(directory)
-        self.app = FastAPI(title="Utahx Web Server", version="1.3.0")
+        self.app = FastAPI(title="Utahx Web Server", version="2.0.0")
         self.enable_introspection = True
         self.scanner = ProjectScanner(self.directory)
         self.mode = mode
@@ -203,6 +206,8 @@ class UtahxServer:
         self._backend: BackendLauncher | None = None
         self._internal_port: int | None = None
         self._http_client: httpx.AsyncClient | None = None
+        self.enable_apex = enable_apex
+        self._stasis = CryogenicStasis(stasis_timeout=stasis_timeout)
 
         if mode == "static":
             self.project_type = "static"
@@ -224,6 +229,10 @@ class UtahxServer:
             )
             logger.info("Semantic Cache Layer enabled (API gateway).")
         register_prefetch(self.app, self.directory, enabled=self.enable_prefetch)
+        if self.enable_apex:
+            register_apex_http(self.app)
+            self.app.include_router(create_challenge_router())
+            logger.info("Apex Protocol: Tollbooth + Cryo-Stasis ONLINE.")
 
         if self.project_type == "static":
             use_spa = (
@@ -321,22 +330,23 @@ class UtahxServer:
                 for k, v in request.headers.items()
                 if k.lower() not in ("host", "content-length")
             }
-            try:
-                upstream = await self._http_client.request(
-                    request.method,
-                    url,
-                    headers=headers,
-                    content=body,
-                )
-            except httpx.ConnectError:
+            upstream = await self._stasis.http_request_with_stasis(
+                self._http_client,
+                request.method,
+                url,
+                headers=headers,
+                content=body,
+            )
+            if upstream is None:
                 return render_friendly_error(
                     title="Backend Warming Up",
                     message=(
-                        "Utahx is smoothing traffic while your application starts."
+                        "Utahx held your request in cryo-stasis while the "
+                        "application restarts."
                     ),
                     technical_hint=(
-                        "Verify main.py or npm start is configured. "
-                        "Retry in a few seconds."
+                        "Backend was offline up to 15s. Verify main.py or "
+                        "npm start; retry shortly."
                     ),
                     status_code=503,
                 )

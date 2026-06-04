@@ -17,6 +17,7 @@ Official documentation for the Utahx SOTA Web Engine.
 | 5 | [05-API-GATEWAY.md](05-API-GATEWAY.md) | API owners, backend engineers |
 | 6 | [06-MONETIZATION.md](06-MONETIZATION.md) | GTM, enterprise sales, founders |
 | 7 | [07-AEGIS-PROTOCOL.md](07-AEGIS-PROTOCOL.md) | Security engineers, edge hardening |
+| 8 | [08-APEX-PROTOCOL.md](08-APEX-PROTOCOL.md) | Bot defense, zero-downtime deploys |
 
 ---
 
@@ -27,7 +28,7 @@ Official documentation for the Utahx SOTA Web Engine.
 3. **Replacing Nginx?** Go straight to Part 3.  
 4. **Scaling to millions of users?** Parts 4 and 5.  
 5. **Building a product company around Utahx?** Part 6.  
-6. **Hardening for production / hostile traffic?** Part 7 (Aegis).
+6. **Hardening for production / hostile traffic?** Parts 7–8 (Aegis + Apex).
 
 ---
 
@@ -85,3 +86,9 @@ Each translation is isolated in its own directory. Pages contain **one language 
 | Chinese (Simplified) | [../cdocs/README.md](../cdocs/README.md) |
 | Estonian | [../edocs/README.md](../edocs/README.md) |
 | Finnish | [../fdocs/README.md](../fdocs/README.md) |
+
+---
+
+## v2.0 Apex stack
+
+Aegis (timeouts, caps, drain) + Apex (Turing Tollbooth + Cryogenic Stasis) ship by default on TCP and HTTP entry points.

@@ -149,15 +149,31 @@ async def start_utahx(
     max_flow_rate: int = 100,
     host: str = "0.0.0.0",
     aegis: bool = True,
+    apex: bool = True,
     max_connections: int = 1000,
     network_timeout: float = 5.0,
     drain_timeout: float = 30.0,
+    stasis_timeout: float = 15.0,
 ) -> None:
     """
     Start the Utahx edge gateway listener.
 
-    When aegis=True (default), uses HardenedFluidRouter (timeouts, caps, graceful drain).
+    apex=True (default): Aegis + Turing Tollbooth + Cryogenic Stasis.
+    aegis=True without apex: hardened router only.
     """
+    if apex:
+        from utahx_apex_core import execute_apex_engine
+
+        await execute_apex_engine(
+            listen_port,
+            backend_port,
+            backend_host=backend_host,
+            host=host,
+            max_flow_rate=max_flow_rate,
+            stasis_timeout=stasis_timeout,
+        )
+        return
+
     if aegis:
         from utahx_core_aegis import start_hardened_server
 

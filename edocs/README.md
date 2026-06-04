@@ -17,6 +17,7 @@ Utahx SOTA veebimootori ametlik dokumentatsioon.
 | 5 | [05-API-GATEWAY.md](05-API-GATEWAY.md) | API omanikud ja backend |
 | 6 | [06-MONETIZATION.md](06-MONETIZATION.md) | Utahx Cloud monetiseerimine |
 | 7 | [07-AEGIS-PROTOCOL.md](07-AEGIS-PROTOCOL.md) | Aegis TCP tugevdus |
+| 8 | [08-APEX-PROTOCOL.md](08-APEX-PROTOCOL.md) | Apex botid ja deploy |
 
 ---
 

@@ -8,7 +8,8 @@ ENV PYTHONUNBUFFERED=1 \
 WORKDIR /app
 
 COPY requirements.txt pyproject.toml README.md ./
-COPY fluid_dynamics.py utahx_core.py utahx_core_aegis.py utahx_auto.py utahx_secure.py \
+COPY fluid_dynamics.py utahx_core.py utahx_core_aegis.py utahx_apex.py utahx_apex_core.py \
+     utahx_auto.py utahx_secure.py \
      utahx_cli.py utahx_cache.py utahx_prefetch.py utahx_registry.py \
      utahx_ports.py utahx_launcher.py ./
 

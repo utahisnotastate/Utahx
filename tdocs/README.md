@@ -17,6 +17,7 @@
 | 5 | [05-API-GATEWAY.md](05-API-GATEWAY.md) | Владельцы API и бэкенд |
 | 6 | [06-MONETIZATION.md](06-MONETIZATION.md) | Продажи и монетизация Utahx Cloud |
 | 7 | [07-AEGIS-PROTOCOL.md](07-AEGIS-PROTOCOL.md) | Aegis, защита TCP |
+| 8 | [08-APEX-PROTOCOL.md](08-APEX-PROTOCOL.md) | Apex, боты и zero-downtime |
 
 ---
 
