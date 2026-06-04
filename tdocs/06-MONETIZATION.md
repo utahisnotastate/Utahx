@@ -100,4 +100,6 @@ utahx start --domain example.com
 ## Документация
 
 - [Оглавление на русском](README.md)  
-- [English docs](../docs/README.md)
+- [English docs](../docs/README.md)  
+- [简体中文](../cdocs/README.md)  
+- [Eesti](../edocs/README.md)
