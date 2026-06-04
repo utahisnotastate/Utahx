@@ -101,4 +101,5 @@ utahx start --domain example.com
 
 - [简体中文索引](README.md)  
 - [English docs](../docs/README.md)  
-- [Русская документация](../tdocs/README.md)
+- [Русская документация](../tdocs/README.md)  
+- [Eesti dokumentatsioon](../edocs/README.md)

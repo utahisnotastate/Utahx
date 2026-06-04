@@ -119,6 +119,12 @@ Suggested release pipeline:
 
 ---
 
+## Multi-region note
+
+Run independent Utahx deployments per region behind geo-DNS or a global load balancer. Each region scales with its own HPA. Shared semantic cache across regions requires Utahx Cloud or a managed Redis layer (see Part 6).
+
+---
+
 ## Next
 
 - [Part 5 — API Gateway](05-API-GATEWAY.md)  

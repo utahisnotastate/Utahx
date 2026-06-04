@@ -58,3 +58,4 @@ Utahx SOTA  Web 引擎官方文档。
 |------|------|
 | English | [../docs/README.md](../docs/README.md) |
 | Русский | [../tdocs/README.md](../tdocs/README.md) |
+| Eesti | [../edocs/README.md](../edocs/README.md) |

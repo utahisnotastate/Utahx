@@ -52,6 +52,24 @@ Utahx is a single binary and CLI that replaces manual **Nginx configuration**, *
 
 ---
 
+## Glossary
+
+| Term | Meaning |
+|------|---------|
+| **Fluid routing** | Traffic smoothing via viscosity delays instead of connection drops |
+| **Zero-config** | Utahx detects project type from files in the folder |
+| **Semantic pre-fetch** | Predicts next page from pointer movement and pre-loads it |
+| **Semantic cache** | RAM store keyed by hash of path + request body |
+| **ACME** | Automated certificate authority protocol (Let's Encrypt) |
+
+---
+
+## Contributing to docs
+
+Documentation changes belong in the language-specific folder only. Do not mix languages on one page. Add new locales as sibling directories (for example `edocs/` for Estonian).
+
+---
+
 ## Other languages (separate folders)
 
 Each translation is isolated in its own directory. Pages contain **one language only**.
@@ -60,3 +78,4 @@ Each translation is isolated in its own directory. Pages contain **one language 
 |----------|-------|
 | Russian | [../tdocs/README.md](../tdocs/README.md) |
 | Chinese (Simplified) | [../cdocs/README.md](../cdocs/README.md) |
+| Estonian | [../edocs/README.md](../edocs/README.md) |

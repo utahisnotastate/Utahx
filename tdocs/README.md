@@ -60,3 +60,4 @@
 |------|--------|
 | English | [../docs/README.md](../docs/README.md) |
 | 简体中文 | [../cdocs/README.md](../cdocs/README.md) |
+| Eesti | [../edocs/README.md](../edocs/README.md) |

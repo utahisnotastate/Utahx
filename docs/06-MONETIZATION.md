@@ -104,3 +104,4 @@ Planned telemetry (anonymized):
 | English | [README.md](README.md) |
 | Russian | [../tdocs/README.md](../tdocs/README.md) |
 | Chinese (Simplified) | [../cdocs/README.md](../cdocs/README.md) |
+| Estonian | [../edocs/README.md](../edocs/README.md) |

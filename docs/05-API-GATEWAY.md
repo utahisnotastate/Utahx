@@ -121,6 +121,12 @@ python -m unittest test_utahx_cache -v
 
 ---
 
+## Security note
+
+The semantic cache stores full response bodies in process memory. Do not enable caching for authenticated endpoints that return user-specific data unless the request body fully identifies the subject and TTL is acceptable for your privacy model.
+
+---
+
 ## Related
 
 - [Part 3 — Migration](03-MIGRATION-GUIDE.md)  
