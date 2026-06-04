@@ -97,7 +97,10 @@ Planned telemetry (anonymized):
 
 ---
 
-## Documentation
+## Documentation (separate folders)
 
-- [English index](README.md)  
-- [Russian index](../tdocs/README.md)
+| Language | Index |
+|----------|-------|
+| English | [README.md](README.md) |
+| Russian | [../tdocs/README.md](../tdocs/README.md) |
+| Chinese (Simplified) | [../cdocs/README.md](../cdocs/README.md) |

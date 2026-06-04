@@ -52,6 +52,11 @@
 
 ---
 
-## English documentation
+## Другие языки (отдельные папки)
 
-Английская документация в **отдельной папке**: [../docs/README.md](../docs/README.md)
+На каждой странице **только один язык**.
+
+| Язык | Индекс |
+|------|--------|
+| English | [../docs/README.md](../docs/README.md) |
+| 简体中文 | [../cdocs/README.md](../cdocs/README.md) |

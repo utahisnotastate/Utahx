@@ -52,6 +52,11 @@ Utahx is a single binary and CLI that replaces manual **Nginx configuration**, *
 
 ---
 
-## Russian documentation
+## Other languages (separate folders)
 
-Russian docs live in a **separate folder**: [../tdocs/README.md](../tdocs/README.md)
+Each translation is isolated in its own directory. Pages contain **one language only**.
+
+| Language | Index |
+|----------|-------|
+| Russian | [../tdocs/README.md](../tdocs/README.md) |
+| Chinese (Simplified) | [../cdocs/README.md](../cdocs/README.md) |

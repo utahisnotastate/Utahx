@@ -74,6 +74,16 @@ Behind the scenes, Utahx acts as a **reverse proxy** and **web server**. It list
 
 ---
 
+## Troubleshooting quick tips
+
+| Issue | What to try |
+|-------|-------------|
+| Blank page locally | Open `http://localhost:8080`; confirm `index.html` exists |
+| Domain not working | Point DNS A/AAAA record to your server; check firewall |
+| Window closes instantly on Windows | Run from terminal: `py -3.11 utahx_launcher.py` to read errors |
+
+---
+
 ## Where to go next
 
 - Business impact: [Part 2 — Business Guide](02-BUSINESS-GUIDE.md)  

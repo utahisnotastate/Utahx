@@ -9,6 +9,8 @@ Utahx replaces Nginx **configuration files** with a single CLI. Most migrations 
 
 ## Install
 
+> **Note:** Command examples use `utahx` after `pip install -e .`. You can also run `python -m utahx_cli start` with the same flags.
+
 ### From GitHub
 
 ```bash

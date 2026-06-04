@@ -119,6 +119,19 @@ Details: [Part 4 — Enterprise Scaling](04-ENTERPRISE-SCALING.md)
 
 ---
 
+## Total cost of ownership (TCO) snapshot
+
+| Cost line | Nginx + Certbot (typical) | Utahx OSS |
+|-----------|---------------------------|-----------|
+| Engineer hours / year for config & certs | 40–120 hrs | 5–20 hrs |
+| Outage minutes from limit/certs | Higher | Lower |
+| Extra CDN for basic pre-fetch | Often yes | Optional |
+| Enterprise dashboard | Third-party APM | Utahx Cloud (Part 6) |
+
+Figures vary by team size; use your incident history for a precise model.
+
+---
+
 ## Next steps
 
 - Engineering migration: [Part 3 — Migration Guide](03-MIGRATION-GUIDE.md)  
