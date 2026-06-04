@@ -1,61 +1,103 @@
-# Utahx Official Documentation — Part 6: Monetization Blueprint (Utahx Cloud)
+# Part 6: Monetization Blueprint (Utahx Cloud)
 
 **Audience:** Founders, GTM, enterprise sales  
 **Repository:** [github.com/utahisnotastate/Utahx](https://github.com/utahisnotastate/Utahx)
 
 ---
 
-## Strategy: Open Source as Trojan Horse
+## Strategy overview
 
-1. **Free Utahx on GitHub** — zero-config, fluid routing, auto-TLS, friendly errors, semantic pre-fetch.
-2. Developers migrate off Nginx for operational simplicity.
-3. **Utahx Cloud Control** monetizes visibility, global policy, and one-click enterprise scale.
+Utahx open source removes Nginx pain for developers. **Utahx Cloud Control** monetizes what enterprises still pay for: visibility, global policy, managed scale, and support.
+
+```
+Free OSS (GitHub)  →  Developer adoption  →  Cloud subscription
+```
 
 ---
 
 ## Product: Utahx Cloud Control
 
-| Tier | Price | Features |
+### Tiers
+
+| Tier | Price | Includes |
 |------|-------|----------|
-| **Hobbyist** | Free | Local routing, basic logs, community support |
-| **Enterprise** | $499/mo | Global threat blocking, traffic heatmaps, one-click GKE/EKS deploy of `utahx_kubernetes_scale.yaml`, centralized semantic cache (Redis), SSO |
+| **Hobbyist** | Free | Local Utahx, community support, basic logs |
+| **Pro** | $99/mo (planned) | Dashboard, email alerts, 30-day metrics |
+| **Enterprise** | $499/mo | Threat blocking UI, global traffic map, one-click GKE/EKS deploy, shared Redis cache, SSO, SLA |
 
-### Problem → Solution
+### Pain → paid feature
 
-| Pain | Cloud offering |
-|------|----------------|
-| CEOs want dashboards | Dark-mode global traffic map |
-| Security wants a kill switch | Central API key + remote drain |
-| Ops wants GCP scale without YAML | “Deploy cloning factory” button (applies HPA manifest) |
+| Buyer pain | Cloud feature |
+|------------|---------------|
+| “Is the site up worldwide?” | Global traffic heatmap |
+| “Shut it down now.” | Central kill switch via API key |
+| “Scale without YAML.” | One-click apply of `utahx_kubernetes_scale.yaml` |
+| “Why is the API slow?” | Cache hit ratio and viscosity timeline |
+| “Compliance.” | Audit log export, RBAC, SSO |
 
 ---
 
-## Execution Playbook
+## Go-to-market playbook
 
-1. **Launch landing page:** *"Nginx is dead. Meet the zero-config, crash-proof web engine."*
-2. **CTA:** Download from [github.com/utahisnotastate/Utahx](https://github.com/utahisnotastate/Utahx).
-3. **Hook:** Fluid router + zero-config — users feel speed immediately.
-4. **Upsell:** Link local Utahx to Cloud with `UTAHX_CLOUD_API_KEY` (future SDK).
+### Phase 1: Launch (week 1–2)
+
+1. Publish repo: [github.com/utahisnotastate/Utahx](https://github.com/utahisnotastate/Utahx)  
+2. Landing headline: *“Nginx is dead. Meet the zero-config, crash-proof web engine.”*  
+3. CTA: `git clone` + `utahx start` in README  
+4. Social proof: fluid demo video, before/after 502 comparison  
+
+### Phase 2: Hook (week 3–8)
+
+- Ship Docker image to GHCR  
+- DevRel posts: “Migrate in 60 seconds” (Part 3 content)  
+- Collect GitHub stars and issue feedback  
+
+### Phase 3: Monetize (month 3+)
+
+- Private beta for Cloud dashboard  
+- `UTAHX_CLOUD_API_KEY` in agent (roadmap)  
+- Enterprise outbound to teams already on Kubernetes  
 
 ---
 
 ## Technical hook (roadmap)
 
 ```bash
-export UTAHX_CLOUD_API_KEY=utx_live_...
+export UTAHX_CLOUD_API_KEY=utx_live_xxxxxxxx
 utahx start --domain example.com
 ```
 
-Telemetry agent (planned): anonymized flow rate, cache hit ratio, viscosity events → Cloud dashboard.
+Planned telemetry (anonymized):
+
+- Requests per second and viscosity events  
+- Semantic cache hit rate  
+- TLS renewal status  
+- Pod count when linked to managed K8s  
 
 ---
 
-## Revenue model summary
+## Revenue model
 
-- **OSS:** MIT license, viral GitHub growth.
-- **Cloud:** subscription + optional usage overage on managed K8s cells.
-- **Enterprise:** SLA, dedicated support, compliance pack.
+| Stream | Model |
+|--------|-------|
+| Open source | MIT license, no license fee |
+| Cloud subscription | Monthly per organization |
+| Managed cells | Usage overage for dedicated K8s namespaces |
+| Enterprise | Annual contract + support + compliance pack |
 
 ---
 
-Documentation index: [docs/README.md](README.md)
+## Competitive positioning
+
+| Competitor | Utahx OSS | Utahx Cloud |
+|------------|-----------|-------------|
+| Nginx + Certbot | Zero conf, fluid routing | Dashboard + managed scale |
+| Cloudflare (partial overlap) | Self-hosted option | Hybrid: edge + on-prem |
+| Traefik | Simpler onboarding | Enterprise policy UI |
+
+---
+
+## Documentation
+
+- [English index](README.md)  
+- [Russian index](../tdocs/README.md)

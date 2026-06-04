@@ -1,25 +1,39 @@
-# Utahx Official Documentation — Part 3: Technical Migration Guide
+# Part 3: Technical Migration Guide
 
 **Audience:** DevOps, SRE, backend engineers  
-**Registry:** [github.com/utahisnotastate/utahx](https://github.com/utahisnotastate/utahx)
+**Repository:** [github.com/utahisnotastate/Utahx](https://github.com/utahisnotastate/Utahx)
 
-Migrating from Nginx to Utahx takes **less than 60 seconds**. Utahx is a drop-in replacement that eliminates `.conf` files.
+Utahx replaces Nginx **configuration files** with a single CLI. Most migrations complete in **under 60 seconds** after install.
 
 ---
 
 ## Install
 
+### From GitHub
+
 ```bash
-pip install git+https://github.com/utahisnotastate/utahx.git
-# or
+git clone https://github.com/utahisnotastate/Utahx.git
+cd Utahx
 pip install -e .
+```
+
+### Requirements
+
+- Python **3.11+**
+- Dependencies in `requirements.txt` (FastAPI, Uvicorn, httpx, cryptography)
+- Optional ACME: `pip install -e ".[secure]"`
+
+Verify:
+
+```bash
+python -m unittest discover -v
 ```
 
 ---
 
-## Scenario A: Reverse Proxy (Node.js, Python, Go)
+## Scenario A: reverse proxy (Node.js, Python, Go)
 
-### The old Nginx way
+### Before: Nginx
 
 ```nginx
 server {
@@ -33,113 +47,147 @@ server {
 }
 ```
 
-Then: `sites-available`, symlinks, `nginx -t`, reload.
+Plus `sites-available`, symlinks, `nginx -t`, and reload.
 
-### The Utahx way
+### After: Utahx
 
 ```bash
 cd /path/to/your/app
-utahx start --proxy 5000 --domain utahisnotastate.com
+utahx start --proxy 5000 --domain utahisnotastate.com --email ops@example.com
 ```
 
-| Behavior | Detail |
-|----------|--------|
-| Ports | Binds **80** / **443** (falls back to **8080** / **8443** without root) |
-| TLS | Let's Encrypt via ACME v2 (`pip install utahx[secure]`) |
-| Proxy | All traffic → `127.0.0.1:5000` |
-| Protection | Fluid Traffic Manager on the edge |
-| Pre-fetch | HTML responses inject semantic pre-fetch client |
+| Setting | Behavior |
+|---------|----------|
+| Listen | **443** with TLS when `--domain` is set; **8080** locally without domain |
+| Upstream | `http://127.0.0.1:5000` |
+| Headers | Standard reverse proxy forwarding via httpx |
+| Edge protection | FluidTrafficMiddleware |
+| HTML sites | Pre-fetch script injection on HTML responses |
+
+Your application must already listen on the target port (for example Flask on 5000).
 
 ---
 
-## Scenario B: Static Site / SPA (React, Vue, HTML)
+## Scenario B: static site or SPA (React, Vue, HTML)
 
-### The old Nginx way
+### Before: Nginx
 
-- `root` / `try_files` / cache headers  
-- Manual SPA fallback: `try_files $uri /index.html`
+- `root` directive  
+- `try_files $uri $uri/ /index.html` for client-side routing  
+- Manual cache headers  
 
-### The Utahx way
+### After: Utahx
 
 ```bash
-cd ./dist   # or build folder
+cd ./dist
 utahx start --static --domain utahisnotastate.com
 ```
 
-| Behavior | Detail |
-|----------|--------|
-| Auto-sense | Forces static mode |
-| SPA routing | Unknown paths → `index.html` when SPA markers detected |
-| Pre-fetch | `/__utahx/prefetch/*` API + injected `utahx.js` |
-| MIME | FastAPI `StaticFiles` / `FileResponse` |
+| Setting | Behavior |
+|---------|----------|
+| Mode | Forces static file serving |
+| SPA | Unknown paths fall back to `index.html` when SPA markers are detected |
+| Pre-fetch | `/__utahx/prefetch/*` endpoints + injected client script |
+| Files | Served via FastAPI `FileResponse` / `StaticFiles` |
 
 ---
 
-## Scenario C: Zero-Config (Magic Butler)
+## Scenario C: zero-config (magic butler)
 
 ```bash
 cd /path/to/project
 utahx start
 ```
 
-Utahx scans for `package.json`, `requirements.txt`, `main.py`, or `index.html` and configures routes automatically.
+Detection order:
+
+1. `package.json` → Node.js (attempts `npm run start` on internal port + proxy)  
+2. `requirements.txt` or `main.py` → Python (uvicorn `main:app` + proxy)  
+3. `index.html` → static site  
+4. Otherwise → safe static fallback  
 
 ---
 
-## Semantic Pre-Fetching (Technical)
+## Middleware and request flow
+
+```
+Client
+  → HumanIntrospectionMiddleware   (friendly 404/502/500)
+  → FluidTrafficMiddleware         (viscosity / Reynolds)
+  → SemanticCacheMiddleware        (API RAM cache)
+  → PrefetchInjectMiddleware       (HTML script injection)
+  → Static | reverse proxy | auto backend
+```
+
+---
+
+## Semantic pre-fetching (API reference)
 
 | Endpoint | Method | Purpose |
 |----------|--------|---------|
 | `/__utahx/prefetch/manifest?path=/` | GET | Link graph for current page |
-| `/__utahx/prefetch/signal` | POST | Pointer telemetry → ranked prefetch URLs |
-| `/__utahx/prefetch/utahx.js` | GET | Client bootstrap (injected into HTML) |
+| `/__utahx/prefetch/signal` | POST | Pointer telemetry → ranked URLs |
+| `/__utahx/prefetch/utahx.js` | GET | Browser bootstrap script |
 
-**Client behavior:** `mousemove` + hover tracking → periodic `signal` → `<link rel=prefetch>` + low-priority `fetch`.
-
-**Server model:** `SemanticPrefetchEngine` scores links by proximity, velocity alignment, and hover state.
+Server module: `utahx_prefetch.SemanticPrefetchEngine`
 
 ---
 
-## Architecture Map
+## Semantic cache (API reference)
 
-```
-Internet → Utahx (443/80)
-            ├── FluidTrafficMiddleware (viscosity)
-            ├── HumanIntrospectionMiddleware (friendly errors)
-            ├── PrefetchInjectMiddleware (HTML injection)
-            ├── AutoTLSEngine (ACME / vault)
-            └── Backend: static | proxy:PORT | auto-detected app
-```
+| Header | Meaning |
+|--------|---------|
+| `X-Utahx-Cache: HIT` | Served from RAM |
+| `X-Utahx-Cache: MISS` | Fetched from backend and stored |
+
+Default TTL: **60 seconds**. Configure with `UtahxServer(cache_ttl_seconds=120)`.
 
 ---
 
-## Windows Double-Click
+## TLS and certificates
 
-Place `utahx.cmd` or built `utahx.exe` in your project folder. Interactive domain prompt runs when no CLI args are passed.
-
-Build executable:
-
-```powershell
-.\scripts\build_utahx_exe.ps1
+```bash
+utahx start --domain example.com --email admin@example.com
 ```
 
----
-
-## Enterprise & monetization
-
-- [Docker / Kubernetes scaling](04-ENTERPRISE-SCALING.md)  
-- [Semantic API cache gateway](05-API-GATEWAY.md)  
-- [Utahx Cloud monetization](06-MONETIZATION.md)  
+- Production ACME: install `utahx[secure]` and ensure HTTP-01 reachability on port 80  
+- Development fallback: ECDSA cert in `.utahx/vault/`  
+- Staging CA: add `--staging`  
 
 ---
 
-## Quick Reference
+## Windows workflow
+
+1. Copy project files and `utahx.cmd` into one folder.  
+2. Double-click `utahx.cmd` (interactive domain prompt).  
+3. Or build `utahx.exe`: `.\scripts\build_utahx_exe.ps1`
+
+---
+
+## Environment variables
+
+| Variable | Purpose |
+|----------|---------|
+| `UTAHX_STATELESS` | Set to `1` in containers (no reliance on local state) |
+| `UTAHX_PORT` | Container listen port (default **8080** in Docker) |
+
+---
+
+## Quick reference
 
 | Command | Use case |
 |---------|----------|
-| `utahx start` | Auto-sense project |
-| `utahx start --static --domain example.com` | SPA / static dist |
+| `utahx start` | Auto-detect project type |
+| `utahx start --static --domain example.com` | SPA / static build output |
 | `utahx start --proxy 5000 --domain example.com` | Existing app on port 5000 |
 | `utahx start --domain example.com --email ops@example.com` | TLS + ACME account |
+| `utahx start --port 9000` | Custom listen port |
 
-Registry: [https://github.com/utahisnotastate/utahx](https://github.com/utahisnotastate/utahx)
+---
+
+## Related guides
+
+- [Part 4 — Enterprise Scaling](04-ENTERPRISE-SCALING.md)  
+- [Part 5 — API Gateway](05-API-GATEWAY.md)  
+- [Part 6 — Monetization](06-MONETIZATION.md)  
+- [Documentation index](README.md)

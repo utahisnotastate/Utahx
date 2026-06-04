@@ -1,35 +1,65 @@
-# Utahx Official Documentation — Part 5: Advanced API Gateway
+# Part 5: Advanced API Gateway
 
-**Audience:** Backend engineers, API owners  
+**Audience:** Backend engineers and API owners  
 **Repository:** [github.com/utahisnotastate/Utahx](https://github.com/utahisnotastate/Utahx)
 
 ---
 
-## Semantic Cache Layer
+## Why Utahx adds a gateway layer
 
-Nginx caches by exact URL. Utahx hashes **path + request body intent** (SHA-256 fingerprint) and serves identical API calls from RAM.
+Nginx caches by **exact URL**. Two requests with the same path but different query bodies may still hit the backend twice. Utahx **semantic cache** fingerprints **path + body** so logically identical API calls return instantly from RAM.
 
-| Component | Module | Role |
-|-----------|--------|------|
-| `SemanticMemoryCore` | `utahx_cache.py` | Vault: fingerprint → (bytes, expiry) |
-| `SemanticCacheMiddleware` | `utahx_cache.py` | Gateway middleware on GET/HEAD `/api/*` |
+This is an edge gateway concern: it runs before your application worker pool.
 
-### Behavior
+---
 
-- **HIT** — instant JSON from RAM, header `X-Utahx-Cache: HIT`
-- **MISS** — proxy to backend, memorize 200 responses, header `X-Utahx-Cache: MISS`
-- **TTL** — default 60s (configurable on `UtahxServer`)
+## Components
 
-### Example
+| Class | File | Role |
+|-------|------|------|
+| `SemanticMemoryCore` | `utahx_cache.py` | SHA-256 vault: fingerprint → (bytes, expiry) |
+| `SemanticCacheMiddleware` | `utahx_cache.py` | HTTP middleware for cacheable requests |
+
+---
+
+## Cache rules
+
+| Rule | Value |
+|------|-------|
+| Methods | `GET`, `HEAD` |
+| Paths | `/api/*` or `Accept: application/json` |
+| Skipped | `/__utahx/*` internal routes |
+| Success stored | HTTP **200** responses only |
+| Default TTL | **60** seconds |
+
+---
+
+## Response headers
+
+| Header | Meaning |
+|--------|---------|
+| `X-Utahx-Cache: HIT` | Served from memory |
+| `X-Utahx-Cache: MISS` | Backend executed; response memorized |
+
+Use these in load tests and APM to measure cache effectiveness.
+
+---
+
+## Python configuration
 
 ```python
 from utahx_auto import UtahxServer
 
-server = UtahxServer(directory=".", cache_ttl_seconds=120)
+# Longer TTL for read-heavy APIs
+server = UtahxServer(
+    directory=".",
+    cache_ttl_seconds=300,
+    enable_semantic_cache=True,
+)
 server.start(port=8080)
 ```
 
-### Disable cache
+Disable cache:
 
 ```python
 UtahxServer(directory=".", enable_semantic_cache=False)
@@ -37,15 +67,61 @@ UtahxServer(directory=".", enable_semantic_cache=False)
 
 ---
 
-## Full gateway stack (v1.2)
+## Direct cache API (advanced)
+
+```python
+from utahx_cache import SemanticMemoryCore
+
+cache = SemanticMemoryCore(time_to_live_seconds=120)
+cache.memorize("/api/user", b"id=1", b'{"name":"Ada"}')
+assert cache.retrieve("/api/user", b"id=1") is not None
+```
+
+---
+
+## Full edge stack (v1.2)
 
 ```
-Request
-  → HumanIntrospectionMiddleware
-  → FluidTrafficMiddleware
-  → SemanticCacheMiddleware
-  → PrefetchInjectMiddleware
-  → Backend / static / proxy
+HTTP Request
+    │
+    ▼
+HumanIntrospectionMiddleware     ← friendly errors
+    │
+    ▼
+FluidTrafficMiddleware           ← viscosity under load
+    │
+    ▼
+SemanticCacheMiddleware          ← RAM API cache
+    │
+    ▼
+PrefetchInjectMiddleware         ← HTML pre-fetch (not API JSON)
+    │
+    ▼
+Application (static / proxy / auto-started backend)
 ```
 
-Registry: [github.com/utahisnotastate/Utahx](https://github.com/utahisnotastate/Utahx)
+---
+
+## Capacity planning
+
+| Factor | Guidance |
+|--------|----------|
+| Memory | Each cached entry holds full response bytes until TTL |
+| Cardinality | High-cardinality bodies reduce hit rate |
+| Invalidation | TTL-only today; shorten TTL after deploys |
+| Multi-pod | Per-pod cache; use Redis for shared cache at scale |
+
+---
+
+## Testing
+
+```bash
+python -m unittest test_utahx_cache -v
+```
+
+---
+
+## Related
+
+- [Part 3 — Migration](03-MIGRATION-GUIDE.md)  
+- [Part 4 — Enterprise Scaling](04-ENTERPRISE-SCALING.md)

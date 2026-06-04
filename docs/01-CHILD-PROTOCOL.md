@@ -1,54 +1,81 @@
-# Utahx Official Documentation — Part 1: The Child-Protocol
+# Part 1: The Child-Protocol
 
 **Audience:** Beginners and non-technical users  
-**Registry:** [github.com/utahisnotastate/utahx](https://github.com/utahisnotastate/utahx)
+**Repository:** [github.com/utahisnotastate/Utahx](https://github.com/utahisnotastate/Utahx)
 
 ---
 
-## The Analogy: The Automatic Storefront
+## The analogy: the automatic storefront
 
-Imagine you build a beautiful wooden sign for a lemonade stand in your garage.
+Imagine you build a wooden sign for a lemonade stand in your garage.
 
-If you use old software (like Nginx), you have to hire a construction crew, file government permits, hire a security guard, and build a road just to put your sign outside. It takes weeks of reading boring manuals.
+**Old way (Nginx and similar tools):** You hire a crew, file permits, hire a guard, and build a road before anyone can see your sign. One typo in a configuration file can lock the door. That takes days or weeks of manuals.
 
-If you use **Utahx**, it is like having a magic teleportation box. You put your sign in the box, press one button, and suddenly your lemonade stand is perfectly placed on the busiest street in the world, with a security guard already standing next to it.
+**Utahx way:** You place your sign in a magic box, press one button, and your stand appears on a busy street with security already in place.
 
----
-
-## Step-by-Step: Launch Your First Website
-
-If you have never coded before, follow these exact steps.
-
-| Step | What to do |
-|------|------------|
-| **1** | Create a folder on your desktop named `MyWebsite`. |
-| **2** | Put your website files inside (`index.html`, pictures, etc.). |
-| **3** | Download Utahx from GitHub and place `utahx.exe` (or `utahx.cmd`) inside `MyWebsite`. |
-| **4** | Double-click `utahx.exe`. |
-| **5** | A window asks: *"What is your domain name? (Leave blank if you don't have one)."* Press Enter if you do not have one. |
-
-**You are done.** Utahx figures out your files, secures them when a domain is provided, and turns your computer into a web server.
+Utahx is that box for websites.
 
 ---
 
-## What Utahx Does Automatically (No Manuals)
+## What you need before you start
 
-- Looks at your folder and knows if you have HTML, Python, or a business app
-- Turns on security (HTTPS) when you give a domain name
-- Smooths traffic spikes so your site does not crash when many people visit
-- Pre-loads the next page you are likely to click so pages feel instant
-- Shows friendly help screens instead of scary error codes
+- A computer (Windows, Mac, or Linux)
+- A folder with your site files (at minimum an `index.html` page)
+- Optional: a domain name you own (for example `myshop.com`)
 
----
-
-## The Professional Pivot (Plain Language)
-
-Utahx hides the complicated **reverse proxy** and **web server** layers. When it runs, it uses industry ports **80** (web) and **443** (secure web), scans your folder, assigns correct file types, and serves visitors—**without creating configuration files**.
+You do **not** need to understand programming, Nginx, or SSL certificates.
 
 ---
 
-## Need Help?
+## Step-by-step: launch your first website
 
-Open the registry: [https://github.com/utahisnotastate/utahx](https://github.com/utahisnotastate/utahx)
+| Step | Action |
+|------|--------|
+| 1 | Create a folder on your desktop named `MyWebsite`. |
+| 2 | Copy your site files into it (`index.html`, images, etc.). |
+| 3 | Download Utahx from [GitHub](https://github.com/utahisnotastate/Utahx) and place `utahx.cmd` or `utahx.exe` inside `MyWebsite`. |
+| 4 | Double-click the Utahx file. |
+| 5 | When asked for a domain name, type yours or press **Enter** to skip (local testing only). |
 
-Next: [Part 2 — Business & ROI Guide](02-BUSINESS-GUIDE.md)
+**Done.** Utahx reads your folder, chooses how to serve it, and starts a web server. If you entered a domain, it also works on securing the connection (HTTPS).
+
+Your site is usually available at `http://localhost:8080` when no domain is set.
+
+---
+
+## What Utahx does without you configuring anything
+
+| Feature | What it means for you |
+|---------|------------------------|
+| **Auto-sensing** | Detects HTML, Python, or Node.js projects from files in the folder |
+| **Auto-security** | Requests and installs TLS certificates when you provide a domain |
+| **Traffic smoothing** | Slows requests slightly during spikes instead of showing scary errors |
+| **Pre-fetching** | Guesses the next page you might open and loads it early |
+| **Friendly errors** | Shows clear help screens instead of `502 Bad Gateway` |
+
+---
+
+## Common questions
+
+**Do I need to write a configuration file?**  
+No. Utahx deliberately avoids files like `nginx.conf`.
+
+**Will my site work on the real internet?**  
+With a domain and proper DNS pointing to your machine or cloud server, yes. For home networks you may need your ISP or router to allow inbound traffic on ports 80 and 443.
+
+**What if something breaks?**  
+Utahx shows a plain-English screen explaining the problem. Developers get extra hints in the same view.
+
+---
+
+## The professional pivot (plain language)
+
+Behind the scenes, Utahx acts as a **reverse proxy** and **web server**. It listens on standard ports **80** (web) and **443** (secure web), inspects your project folder, and routes visitors to the right content. Operators get enterprise behavior without editing config files.
+
+---
+
+## Where to go next
+
+- Business impact: [Part 2 — Business Guide](02-BUSINESS-GUIDE.md)  
+- Technical setup: [Part 3 — Migration Guide](03-MIGRATION-GUIDE.md)  
+- Full doc index: [docs/README.md](README.md)
