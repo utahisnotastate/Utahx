@@ -1,0 +1,13 @@
+services:
+  utahx:
+    build: .
+    image: utahisnotastate/utahx:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - UTAHX_STATELESS=1
+    volumes:
+      - ./site:/app/site:ro
+    working_dir: /app/site
+    command: ["python", "-m", "utahx_cli", "start", "--port", "8080"]
+    restart: unless-stopped

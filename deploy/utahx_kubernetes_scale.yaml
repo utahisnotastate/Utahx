@@ -1,0 +1,80 @@
+# Utahx Gateway — Horizontal Pod Autoscaler deployment
+# Registry: https://github.com/utahisnotastate/Utahx
+apiVersion: v1
+kind: Service
+metadata:
+  name: utahx-gateway
+  labels:
+    app: utahx
+spec:
+  type: LoadBalancer
+  selector:
+    app: utahx
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: utahx-gateway
+  labels:
+    app: utahx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: utahx
+  template:
+    metadata:
+      labels:
+        app: utahx
+    spec:
+      containers:
+        - name: utahx-node
+          image: utahisnotastate/utahx:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: UTAHX_STATELESS
+              value: "1"
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "1000m"
+              memory: "1Gi"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: utahx-auto-scaler
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: utahx-gateway
+  minReplicas: 3
+  maxReplicas: 100
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70

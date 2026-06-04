@@ -1,0 +1,47 @@
+[project]
+name = "utahx"
+version = "1.2.0"
+description = "Utahx SOTA fluid-dynamic zero-config web server with auto-TLS"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.110",
+    "uvicorn[standard]>=0.27",
+    "httpx>=0.27",
+    "cryptography>=42",
+]
+
+[project.scripts]
+utahx = "utahx_cli:main"
+
+[project.optional-dependencies]
+secure = [
+    "acme>=2.9.0",
+    "josepy>=1.14.0",
+]
+dev = []
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+
+[tool.setuptools.packages.find]
+include = ["utahx*"]
+exclude = ["test_*"]
+
+[tool.setuptools]
+py-modules = [
+    "fluid_dynamics",
+    "utahx_auto",
+    "utahx_cli",
+    "utahx_core",
+    "utahx_launcher",
+    "utahx_ports",
+    "utahx_prefetch",
+    "utahx_registry",
+    "utahx_secure",
+    "utahx_cache",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
