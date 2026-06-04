@@ -190,7 +190,7 @@ class UtahxServer:
         cache_ttl_seconds: int = 60,
     ) -> None:
         self.directory = os.path.abspath(directory)
-        self.app = FastAPI(title="Utahx Web Server", version="1.2.0")
+        self.app = FastAPI(title="Utahx Web Server", version="1.3.0")
         self.enable_introspection = True
         self.scanner = ProjectScanner(self.directory)
         self.mode = mode

@@ -16,6 +16,7 @@ Utahx SOTA  Web 引擎官方文档。
 | 4 | [04-ENTERPRISE-SCALING.md](04-ENTERPRISE-SCALING.md) | Docker 与 Kubernetes |
 | 5 | [05-API-GATEWAY.md](05-API-GATEWAY.md) | API 负责人与后端开发 |
 | 6 | [06-MONETIZATION.md](06-MONETIZATION.md) | 商业化与 Utahx Cloud |
+| 7 | [07-AEGIS-PROTOCOL.md](07-AEGIS-PROTOCOL.md) | Aegis TCP 加固 |
 
 ---
 

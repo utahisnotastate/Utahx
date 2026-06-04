@@ -16,6 +16,7 @@ Utahx SOTA veebimootori ametlik dokumentatsioon.
 | 4 | [04-ENTERPRISE-SCALING.md](04-ENTERPRISE-SCALING.md) | Docker ja Kubernetes |
 | 5 | [05-API-GATEWAY.md](05-API-GATEWAY.md) | API omanikud ja backend |
 | 6 | [06-MONETIZATION.md](06-MONETIZATION.md) | Utahx Cloud monetiseerimine |
+| 7 | [07-AEGIS-PROTOCOL.md](07-AEGIS-PROTOCOL.md) | Aegis TCP tugevdus |
 
 ---
 

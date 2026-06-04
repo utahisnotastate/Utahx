@@ -1,6 +1,6 @@
 [project]
 name = "utahx"
-version = "1.2.0"
+version = "1.3.0"
 description = "Utahx SOTA fluid-dynamic zero-config web server with auto-TLS"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -34,6 +34,7 @@ py-modules = [
     "utahx_auto",
     "utahx_cli",
     "utahx_core",
+    "utahx_core_aegis",
     "utahx_launcher",
     "utahx_ports",
     "utahx_prefetch",

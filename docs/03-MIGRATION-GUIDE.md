@@ -129,7 +129,21 @@ Utahx listener (80 / 443 / 8080)
             └── Auto-started Python / Node backend
 ```
 
-Core modules: `utahx_cli`, `utahx_auto`, `utahx_core`, `utahx_secure`, `utahx_prefetch`, `utahx_cache`.
+Core modules: `utahx_cli`, `utahx_auto`, `utahx_core`, `utahx_core_aegis`, `utahx_secure`, `utahx_prefetch`, `utahx_cache`.
+
+---
+
+## Aegis TCP hardening (production)
+
+Standalone TCP proxy (`utahx_core` / `utahx_core_aegis`) enables Aegis **by default**:
+
+| Control | Default | Purpose |
+|---------|---------|---------|
+| `network_timeout` | 5s | Slowloris / idle client drop |
+| `max_connections` | 1000 | RAM boundary |
+| `drain_timeout` | 30s | Graceful SIGINT/SIGTERM drain |
+
+Full guide: [Part 7 — Aegis Protocol](07-AEGIS-PROTOCOL.md).
 
 ---
 

@@ -148,8 +148,31 @@ async def start_utahx(
     backend_host: str = "127.0.0.1",
     max_flow_rate: int = 100,
     host: str = "0.0.0.0",
+    aegis: bool = True,
+    max_connections: int = 1000,
+    network_timeout: float = 5.0,
+    drain_timeout: float = 30.0,
 ) -> None:
-    """Start the Utahx edge gateway listener."""
+    """
+    Start the Utahx edge gateway listener.
+
+    When aegis=True (default), uses HardenedFluidRouter (timeouts, caps, graceful drain).
+    """
+    if aegis:
+        from utahx_core_aegis import start_hardened_server
+
+        await start_hardened_server(
+            listen_port,
+            backend_port,
+            backend_host=backend_host,
+            host=host,
+            max_flow_rate=max_flow_rate,
+            max_connections=max_connections,
+            network_timeout=network_timeout,
+            drain_timeout=drain_timeout,
+        )
+        return
+
     router = FluidRouter(
         backend_host=backend_host,
         backend_port=backend_port,

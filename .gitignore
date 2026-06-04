@@ -9,4 +9,5 @@ build/
 .utahx/
 *.exe
 .env
+utahx_access.log
 .DS_Store

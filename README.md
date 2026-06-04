@@ -1,6 +1,6 @@
-# Utahx (Utah-X) v1.2
+# Utahx (Utah-X) v1.3
 
-State-of-the-art web server: fluid load balancing, zero-config routing, autonomous TLS, friendly error pages, semantic pre-fetching, semantic API caching, and Docker/Kubernetes scaling.
+State-of-the-art web server: fluid load balancing, zero-config routing, autonomous TLS, friendly error pages, semantic pre-fetching, semantic API caching, **Aegis edge hardening**, and Docker/Kubernetes scaling.
 
 **Repository:** [github.com/utahisnotastate/Utahx](https://github.com/utahisnotastate/Utahx)
 
@@ -26,6 +26,7 @@ Documentation is split by language in **separate folders** (one language per pag
 | Enterprise / K8s | [docs/04-ENTERPRISE-SCALING.md](docs/04-ENTERPRISE-SCALING.md) |
 | API gateway | [docs/05-API-GATEWAY.md](docs/05-API-GATEWAY.md) |
 | Monetization | [docs/06-MONETIZATION.md](docs/06-MONETIZATION.md) |
+| Aegis / security | [docs/07-AEGIS-PROTOCOL.md](docs/07-AEGIS-PROTOCOL.md) |
 
 ---
 
@@ -67,6 +68,7 @@ utahx start --static --domain utahisnotastate.com
 | Semantic pre-fetching | `utahx_prefetch` |
 | Semantic API cache | `utahx_cache` |
 | CLI entry point | `utahx_cli` |
+| Aegis TCP hardening | `utahx_core_aegis` |
 
 ---
 

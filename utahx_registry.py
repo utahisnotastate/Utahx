@@ -12,7 +12,7 @@ logger = logging.getLogger("UtahxRegistry")
 
 UPSTREAM_REGISTRY_URL = "https://github.com/utahisnotastate"
 UPSTREAM_REGISTRY_API = "https://api.github.com/repos/utahisnotastate/Utahx/releases/latest"
-UTAHX_VERSION = "1.2.0"
+UTAHX_VERSION = "1.3.0"
 
 
 @dataclass(frozen=True, slots=True)

@@ -16,6 +16,7 @@
 | 4 | [04-ENTERPRISE-SCALING.md](04-ENTERPRISE-SCALING.md) | Docker и Kubernetes |
 | 5 | [05-API-GATEWAY.md](05-API-GATEWAY.md) | Владельцы API и бэкенд |
 | 6 | [06-MONETIZATION.md](06-MONETIZATION.md) | Продажи и монетизация Utahx Cloud |
+| 7 | [07-AEGIS-PROTOCOL.md](07-AEGIS-PROTOCOL.md) | Aegis, защита TCP |
 
 ---
 
